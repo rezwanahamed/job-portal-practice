@@ -1,0 +1,65 @@
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{% url 'dashboard_page' %}">Job Portal</a>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        {% if user.is_authenticated %}
+        <!-- Common Links for Authenticated Users -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'dashboard_page' %}">Dashboard</a>
+        </li>
+
+        {% if request.user.recruiter_profile%}
+        <li class="nav-item">
+          <a href="{% url 'update_profile_page' %}">Update Profile</a>
+        </li>
+        {% endif %}
+        {% if request.user.job_seeker_profile %}
+        <li class="nav-item">
+          <a href="{% url 'update_profile_page' %}">Update Profile</a>
+        </li>
+        {% endif %}
+
+        <!-- Job Seeker Links -->
+        {% if user.user_type == 'job_seeker' %}
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'recommended_jobs_page' %}"
+            >Recommended Jobs</a
+          >
+        </li>  
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'applied_jobs_page' %}"
+            >Applied Jobs</a
+          >
+        </li>
+        {% endif %}
+
+        <!-- Logout Link -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'logout_page' %}">Logout</a>
+        </li>
+
+        {% else %}
+        <!-- Unauthenticated Links -->
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'registration_page' %}">Register</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'login_page' %}">Login</a>
+        </li>
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+</nav>

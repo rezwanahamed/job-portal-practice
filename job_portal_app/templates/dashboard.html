@@ -1,0 +1,45 @@
+{% extends 'master/base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h2>Hello {{user.display_name}}</h2>
+
+  <!-- search form -->
+  
+  {% if request.user.user_type == 'job_seeker' %}
+  <form class="d-flex mb-2" role="search" method="GET" action="{% url 'dashboard_page' %}">
+    <input class="form-control me-2" type="search" name="search_param" placeholder="Search" aria-label="Search"/>
+    <button class="btn btn-outline-success" type="submit">Search</button>
+    <button class="btn btn-outline-danger ms-2">Clear</button>
+  </form>
+  {% endif %}
+
+  <div class="row">
+    {% for job in jobs %}
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ job.title }}</h5>
+          <p class="card-text">{{ job.description|truncatechars:100 }}</p>
+          
+          {% if user.user_type == 'job_seeker' %}
+          <a href="{% url 'job_details_page' job.id %}" class="btn btn-primary">View Details</a>
+          
+          {% else %}
+          <a href="{% url 'applicant_list_page' job.id %}" class="btn btn-warning">Applicant list</a>
+          <a href="{% url 'update_job_page' job.id %}" class="btn btn-warning">Update</a>
+          <a href="{% url 'delete_job_page' job.id %}" class="btn btn-danger">Delete</a>
+          {% endif %}  
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+
+    
+    {% if request.user.user_type == 'recruiter' %}
+      <a href="{% url 'create_job_post_page' %}" class="btn btn-primary">Post Job</a>
+    {% endif %}
+      
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,22 @@
+{% extends 'master/base.html' %} {% block content %}
+
+<div class="container mt-4">
+  <h2>Applied Jobs</h2>
+  <div class="row">
+    {% for application in applied_jobs %}
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ application.job_post.title }}</h5>
+          <p class="card-text">{{ application.job_post.description|truncatechars:100 }}</p>
+          <a href="{% url 'job_details_page' application.job_post.id %}" class="btn btn-primary">View Details</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p>You have not applied to any jobs yet.</p>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock content %}

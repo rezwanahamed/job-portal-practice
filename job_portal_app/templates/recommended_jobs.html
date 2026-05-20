@@ -1,0 +1,25 @@
+{% extends 'master/base.html' %}
+
+
+{% block content %}
+  <div class="row">
+    {% for job in jobs %}
+    <div class="col-md-6 mb-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">{{ job.title }}</h5>
+          <p class="card-text">{{ job.description|truncatechars:100 }}</p>
+          
+          {% if user.user_type == 'job_seeker' %}
+          <a href="{% url 'job_details_page' job.id %}" class="btn btn-primary">View Details</a>
+          
+          {% else %}
+          <a href="{% url 'update_job_page' job.id %}" class="btn btn-warning">Update</a>
+          <a href="{% url 'delete_job_page' job.id %}" class="btn btn-danger">Delete</a>
+          {% endif %}  
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+{% endblock content %}
+  
